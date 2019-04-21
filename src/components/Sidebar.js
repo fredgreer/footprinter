@@ -1,18 +1,32 @@
 import React from 'react';
+import RulerIcon from 'mdi-react/RulerIcon';
+import DownloadIcon from 'mdi-react/DownloadIcon';
 
-const Sidebar = ({ addPad, exportFile }) => {
+const Sidebar = ({ setScale, addPad, exportFile }) => {
   return (
     <div id="sidebar">
-      <h2>Set Scale</h2>
+      <h1>Footprints</h1>
 
-      <h2>Pads</h2>
+      <input type="text" value="Part Name" className="part-name" />
 
-      <ul>
+      <ul className="actions">
+        <li onClick={setScale}>
+          <RulerIcon /> Set Scale
+        </li>
+
+        <li>Place Pad</li>
+
         <li onClick={addPad}>Rectangle</li>
         <li>Circle</li>
+
+        <li onClick={exportFile}>
+          <DownloadIcon /> Export KiCad Footprint
+        </li>
       </ul>
 
-      <h2 onClick={exportFile}>Export</h2>
+      <div className="links">
+        <a href="#">Help</a> | <a href="#">GitHub</a>
+      </div>
 
       <div id="pad-details">
         <div className="input-group">

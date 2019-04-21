@@ -43,8 +43,6 @@ export const getPadPhysicalCoords = (o, scalePPI) => {
 };
 
 export const renderPadSting = pad => {
-  console.log(pad);
-
   let angle = 0;
   if (pad.angle) {
     angle = -pad.angle;

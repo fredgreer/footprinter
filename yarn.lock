@@ -5316,6 +5316,10 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
+mdi-react@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.npmjs.org/mdi-react/-/mdi-react-5.3.0.tgz#e27c876e113ee5706322cb084f898fbaed3c1367"
+
 mdn-data@~1.1.0:
   version "1.1.4"
   resolved "https://registry.npmjs.org/mdn-data/-/mdn-data-1.1.4.tgz#50b5d4ffc4575276573c4eedb8780812a8419f01"

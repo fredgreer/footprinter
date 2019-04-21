@@ -62,6 +62,12 @@ class App extends Component {
     });
   };
 
+  setScale = () => {
+    this.setState({
+      uiState: UI_STATES.SET_SCALE
+    });
+  };
+
   handleScaleSubmit = scalePPI => {
     this.setState({
       scalePPI,
@@ -91,7 +97,11 @@ class App extends Component {
       <Dropzone onDrop={this.handleDrop}>
         {({ getRootProps, getInputProps }) => (
           <div className="App" {...getRootProps()}>
-            <Sidebar addPad={this.addPad} exportFile={this.exportFile} />
+            <Sidebar
+              setScale={this.setScale}
+              addPad={this.addPad}
+              exportFile={this.exportFile}
+            />
             <div id="main">
               {uiState === UI_STATES.AWAITING_IMAGE && (
                 <NullState setExample={this.setExample} />

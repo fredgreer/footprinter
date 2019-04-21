@@ -58,6 +58,7 @@ test('getPadPhysicalCoords()', () => {
 
 test('renderPadSting', () => {
   const pad = {
+    pinNum: 1,
     physicalX: -0.94166,
     physicalY: -1.29166,
     physicalHeight: 1.016,
@@ -65,19 +66,21 @@ test('renderPadSting', () => {
   };
 
   expect(renderPadSting(pad))
-    .toEqual(`  (pad 1 smd rect (at -0.94166 -1.29166) (size 0.666 1.016) (layers F.Cu)
+    .toEqual(`  (pad 1 smd rect (at -0.94166 -1.29166 0) (size 0.666 1.016) (layers F.Cu)
     (zone_connect 0))`);
 });
 
 test('kicadModule', () => {
   const pads = [
     {
+      pinNum: 1,
       physicalX: -0.94166,
       physicalY: -1.29166,
       physicalHeight: 1.016,
       physicalWidth: 0.666
     },
     {
+      pinNum: 2,
       physicalX: 0.94166,
       physicalY: 1.29166,
       physicalHeight: 2.13,
@@ -94,9 +97,9 @@ test('kicadModule', () => {
   (fp_text value "part name" (at 0 -0.5) (layer F.Fab)
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (pad 1 smd rect (at -0.94166 -1.29166) (size 0.666 1.016) (layers F.Cu)
+  (pad 1 smd rect (at -0.94166 -1.29166 0) (size 0.666 1.016) (layers F.Cu)
     (zone_connect 0))
-  (pad 1 smd rect (at 0.94166 1.29166) (size 1.23 2.13) (layers F.Cu)
+  (pad 2 smd rect (at 0.94166 1.29166 0) (size 1.23 2.13) (layers F.Cu)
     (zone_connect 0))
 )`);
 });

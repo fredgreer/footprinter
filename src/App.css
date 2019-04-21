@@ -1,3 +1,10 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
 .App {
   position: absolute;
   top: 0;
@@ -6,6 +13,11 @@
   bottom: 0;
 
   font-size: 14;
+}
+
+h1 {
+  margin: 0;
+  padding: 24px 12px;
 }
 
 input,
@@ -32,6 +44,39 @@ button {
   height: 100vh;
   width: 300px;
   border-right: 1px solid #ddd;
+}
+
+.part-name {
+  font-size: 16px;
+  padding: 8px 12px;
+  width: 250px;
+  margin-left: 8px;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+#sidebar .actions {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#sidebar .actions li {
+  font-size: 16px;
+  line-height: 24px;
+  border-bottom: 1px solid #eee;
+  padding: 8px 8px;
+  cursor: pointer;
+}
+
+#sidebar .links {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.mdi-icon {
+  vertical-align: middle;
+  margin-right: 8px;
 }
 
 #main {

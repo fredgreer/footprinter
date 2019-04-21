@@ -43,6 +43,12 @@ export default class ScaleBar extends Component {
     canvas.remove(this.bar);
   };
 
+  handleKeyUp = evt => {
+    if (evt.key === 'Enter') {
+      this.handleConfirm();
+    }
+  };
+
   render() {
     const { enteredLength, tipLeft, tipTop } = this.state;
     return (
@@ -50,9 +56,8 @@ export default class ScaleBar extends Component {
         <input
           type="number"
           value={enteredLength}
-          onChange={event =>
-            this.setState({ enteredLength: event.target.value })
-          }
+          onChange={evt => this.setState({ enteredLength: evt.target.value })}
+          onKeyUp={this.handleKeyUp}
           step={0.01}
         />{' '}
         mm

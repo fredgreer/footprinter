@@ -16,7 +16,8 @@ export const PAD_TEMPLATE = (
   pinNum,
   x,
   y,
+  rot,
   h,
   w
-) => `  (pad ${pinNum} smd rect (at ${x} ${y}) (size ${w} ${h}) (layers F.Cu)
+) => `  (pad ${pinNum} smd rect (at ${x} ${y} ${rot}) (size ${w} ${h}) (layers F.Cu)
     (zone_connect 0))`;

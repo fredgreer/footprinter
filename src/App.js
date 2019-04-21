@@ -19,7 +19,8 @@ import { UI_STATES } from './constants';
 class App extends Component {
   state = {
     image: null,
-    uiState: UI_STATES.AWAITING_IMAGE
+    uiState: UI_STATES.AWAITING_IMAGE,
+    nextPinNum: 1
   };
 
   setupCanvas = () => {
@@ -27,6 +28,16 @@ class App extends Component {
     const main = document.getElementById('main');
     this.canvas.setWidth(main.offsetWidth);
     this.canvas.setHeight(main.offsetHeight);
+
+    const canvas = this.canvas;
+
+    document.addEventListener('keyup', evt => {
+      const key = evt.key;
+
+      if (['Delete', 'Backspace'].includes(key)) {
+        canvas.remove(canvas.getActiveObject());
+      }
+    });
   };
 
   componentDidMount() {
@@ -59,7 +70,13 @@ class App extends Component {
   };
 
   addPad = () => {
-    this.canvas.add(newPad());
+    const { nextPinNum } = this.state;
+
+    this.canvas.add(newPad(nextPinNum));
+
+    this.setState({
+      nextPinNum: nextPinNum + 1
+    });
   };
 
   exportFile = () => {

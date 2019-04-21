@@ -76,3 +76,38 @@ button {
   border-radius: 4px;
   z-index: 1;
 }
+
+#pad-details {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #ddd;
+  padding: 12px;
+  box-sizing: border-box;
+  height: 300px;
+}
+
+.input-group {
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.input-group label {
+  font-size: 14px;
+  min-width: 92px;
+  display: inline-block;
+}
+
+.input-group input {
+  width: 120px;
+}
+
+.input-group .units {
+  margin-left: 4px;
+}
+
+hr {
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  margin: 24px 8px;
+}

@@ -28,6 +28,7 @@ export const getPadPixelCoords = (o, pixelOrigin) => {
 };
 
 export const getPadPhysicalCoords = (o, scalePPI) => {
+  debugger;
   const physicalX = o.pixelCenter[0] / scalePPI;
   const physicalY = o.pixelCenter[1] / scalePPI;
 

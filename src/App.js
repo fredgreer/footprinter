@@ -8,6 +8,7 @@ import './App.css';
 import fileToBase64 from './util/fileToBase64';
 import exampleImg from './util/exampleImg';
 import exportKicadFootprint from './util/exportKicadFootprint';
+import getPadDimensions from './util/getPadDimensions';
 
 import NullState from './components/NullState';
 import Sidebar from './components/Sidebar';
@@ -20,8 +21,10 @@ import { UI_STATES } from './constants';
 class App extends Component {
   state = {
     uiState: UI_STATES.AWAITING_IMAGE,
+    scalePPI: null,
     nextPinNum: 1,
     selectedPadPinNum: '',
+    selectedPadDimensions: null,
     footprintName: ''
   };
 
@@ -75,10 +78,20 @@ class App extends Component {
     });
 
     canvas.on('object:selected', evt => {
+      const { scalePPI } = this.state;
+
       const pad = evt.target;
 
       this.setState({
-        selectedPadPinNum: pad.pinNum
+        selectedPadPinNum: pad.pinNum,
+        selectedPadDimensions: getPadDimensions(pad, scalePPI)
+      });
+
+      pad.on('deselected', () => {
+        this.setState({
+          selectedPadPinNum: null,
+          selectedPadDimensions: null
+        });
       });
     });
   };
@@ -189,6 +202,42 @@ class App extends Component {
     this.canvas.renderAll();
   };
 
+  changePinDimension = (evt, type) => {
+    const { scalePPI } = this.state;
+    const pad = this.canvas.getActiveObject();
+
+    const val = evt.target.value;
+
+    if (type === 'width') {
+      this.setState({
+        selectedPadDimensions: {
+          ...this.state.selectedPadDimensions,
+          width: val
+        }
+      });
+      pad.scaleX = (parseFloat(val) * scalePPI) / pad.width;
+    } else if (type === 'height') {
+      this.setState({
+        selectedPadDimensions: {
+          ...this.state.selectedPadDimensions,
+          height: val
+        }
+      });
+      pad.scaleY = (parseFloat(val) * scalePPI) / pad.height;
+    } else if (type === 'angle') {
+      this.setState({
+        selectedPadDimensions: {
+          ...this.state.selectedPadDimensions,
+          angle: val
+        }
+      });
+      pad.angle = parseFloat(val);
+    }
+
+    pad.trigger('scaling', { target: pad });
+    this.canvas.renderAll();
+  };
+
   setFootprintName = evt => {
     const val = evt.target.value;
     this.setState({ footprintName: val });
@@ -201,7 +250,12 @@ class App extends Component {
   };
 
   render() {
-    const { uiState, selectedPadPinNum, footprintName } = this.state;
+    const {
+      uiState,
+      selectedPadPinNum,
+      selectedPadDimensions,
+      footprintName
+    } = this.state;
     return (
       <Dropzone onDrop={this.handleDrop}>
         {({ getRootProps, getInputProps }) => (
@@ -211,9 +265,11 @@ class App extends Component {
               addPad={this.addPad}
               exportFile={this.exportFile}
               selectedPadPinNum={selectedPadPinNum}
+              selectedPadDimensions={selectedPadDimensions}
               changeSelectedPadPinNum={this.changeSelectedPadPinNum}
               footprintName={footprintName}
               setFootprintName={this.setFootprintName}
+              changePinDimension={this.changePinDimension}
             />
             <div id="main">
               {uiState === UI_STATES.AWAITING_IMAGE && (

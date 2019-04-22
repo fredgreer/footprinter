@@ -3,14 +3,18 @@ import RulerIcon from 'mdi-react/RulerIcon';
 import DownloadIcon from 'mdi-react/DownloadIcon';
 import CardIcon from 'mdi-react/CardIcon';
 
+import PadDetails from './PadDetails';
+
 const Sidebar = ({
   setScale,
   addPad,
   exportFile,
   selectedPadPinNum,
+  selectedPadDimensions,
   changeSelectedPadPinNum,
   footprintName,
-  setFootprintName
+  setFootprintName,
+  changePinDimension
 }) => {
   return (
     <div id="sidebar">
@@ -50,42 +54,14 @@ const Sidebar = ({
         </a>
       </div>
 
-      <div id="pad-details">
-        <div className="input-group">
-          <label>Pin number</label>
-          <input
-            type="text"
-            value={selectedPadPinNum}
-            onChange={changeSelectedPadPinNum}
-          />
-        </div>
-
-        <hr />
-
-        <div className="input-group">
-          <label>X</label>
-          <input type="number" />
-          <span className="units">mm</span>
-        </div>
-
-        <div className="input-group">
-          <label>Y</label>
-          <input type="number" />
-          <span className="units">mm</span>
-        </div>
-
-        <div className="input-group">
-          <label>Width</label>
-          <input type="number" />
-          <span className="units">mm</span>
-        </div>
-
-        <div className="input-group">
-          <label>Height</label>
-          <input type="number" />
-          <span className="units">mm</span>
-        </div>
-      </div>
+      {selectedPadPinNum && (
+        <PadDetails
+          selectedPadPinNum={selectedPadPinNum}
+          changeSelectedPadPinNum={changeSelectedPadPinNum}
+          selectedPadDimensions={selectedPadDimensions}
+          changePinDimension={changePinDimension}
+        />
+      )}
     </div>
   );
 };

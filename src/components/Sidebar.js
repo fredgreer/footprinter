@@ -40,7 +40,14 @@ const Sidebar = ({
       </ul>
 
       <div className="links">
-        <a href="#">Help</a> | <a href="#">GitHub</a>
+        <a href="#">Help</a> |{' '}
+        <a
+          href="https://github.com/fredgreer/footprinter"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
       </div>
 
       <div id="pad-details">

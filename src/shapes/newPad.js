@@ -28,7 +28,8 @@ export default function newPad(pinNum = '1') {
   const group = new fabric.Group([rect, label], {
     left: 75,
     top: 125,
-    hasRotatingPoint: false
+    originX: 'center',
+    originY: 'center'
   });
 
   group.on('scaling', evt => {

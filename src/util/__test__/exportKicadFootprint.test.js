@@ -7,6 +7,8 @@ import exportKicadFootprint, {
   kicadModule
 } from '../exportKicadFootprint';
 
+import * as hexUnixSeconds from '../hexUnixSeconds';
+
 import TEST_CANVAS from './data/canvas';
 const TEST_SCALE_FACTOR = 120;
 
@@ -87,6 +89,8 @@ test('kicadModule', () => {
       physicalWidth: 1.23
     }
   ];
+
+  hexUnixSeconds.default = jest.fn().mockReturnValue('5C8DE84D');
 
   const mod = kicadModule('part name', pads);
 

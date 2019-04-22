@@ -1,4 +1,5 @@
 import { PAD_TEMPLATE, MOD_TEMPLATE } from './templates';
+import hexUnixSeconds from './hexUnixSeconds';
 import FileSaver from 'file-saver';
 
 export const findExtent = objects => {
@@ -59,7 +60,7 @@ export const renderPadSting = pad => {
 };
 
 export const kicadModule = (name, padPhysicalCoords) => {
-  const timestamp = '5C8DE84D';
+  const timestamp = hexUnixSeconds();
 
   const padStrings = padPhysicalCoords.map(renderPadSting);
   const pads = padStrings.join('\n');

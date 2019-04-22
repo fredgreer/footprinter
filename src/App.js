@@ -21,7 +21,8 @@ class App extends Component {
   state = {
     uiState: UI_STATES.AWAITING_IMAGE,
     nextPinNum: 1,
-    selectedPadPinNum: ''
+    selectedPadPinNum: '',
+    footprintName: ''
   };
 
   _clipboard = null;
@@ -188,14 +189,19 @@ class App extends Component {
     this.canvas.renderAll();
   };
 
-  exportFile = () => {
-    const { scalePPI } = this.state;
+  setFootprintName = evt => {
+    const val = evt.target.value;
+    this.setState({ footprintName: val });
+  };
 
-    exportKicadFootprint(this.canvas, scalePPI);
+  exportFile = () => {
+    const { scalePPI, footprintName } = this.state;
+
+    exportKicadFootprint(this.canvas, scalePPI, footprintName);
   };
 
   render() {
-    const { uiState, selectedPadPinNum } = this.state;
+    const { uiState, selectedPadPinNum, footprintName } = this.state;
     return (
       <Dropzone onDrop={this.handleDrop}>
         {({ getRootProps, getInputProps }) => (
@@ -206,6 +212,8 @@ class App extends Component {
               exportFile={this.exportFile}
               selectedPadPinNum={selectedPadPinNum}
               changeSelectedPadPinNum={this.changeSelectedPadPinNum}
+              footprintName={footprintName}
+              setFootprintName={this.setFootprintName}
             />
             <div id="main">
               {uiState === UI_STATES.AWAITING_IMAGE && (

@@ -67,7 +67,7 @@ export const kicadModule = (name, padPhysicalCoords) => {
   return MOD_TEMPLATE(name, timestamp, pads);
 };
 
-export default function exportKicadFootprint(canvas, scalePPI) {
+export default function exportKicadFootprint(canvas, scalePPI, name) {
   const objects = canvas._objects;
   const pads = objects.filter(o => o.isPad);
 
@@ -80,11 +80,10 @@ export default function exportKicadFootprint(canvas, scalePPI) {
     getPadPhysicalCoords(o, scalePPI)
   );
 
-  // TODO
-  const name = 'SOT-23';
+  name = name || 'Footprint';
 
   const fileContents = kicadModule(name, padPhysicalCoords);
 
   const blob = new Blob([fileContents], { type: 'text/plain;charset=utf-8' });
-  FileSaver.saveAs(blob, 'part.kicad_mod');
+  FileSaver.saveAs(blob, `${name}.kicad_mod`);
 }

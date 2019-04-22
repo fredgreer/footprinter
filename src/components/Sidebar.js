@@ -8,7 +8,9 @@ const Sidebar = ({
   addPad,
   exportFile,
   selectedPadPinNum,
-  changeSelectedPadPinNum
+  changeSelectedPadPinNum,
+  footprintName,
+  setFootprintName
 }) => {
   return (
     <div id="sidebar">
@@ -18,6 +20,8 @@ const Sidebar = ({
         type="text"
         placeholder="Enter footprint name..."
         className="footprint-name"
+        value={footprintName}
+        onChange={setFootprintName}
       />
 
       <ul className="actions">

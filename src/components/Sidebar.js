@@ -1,6 +1,7 @@
 import React from 'react';
 import RulerIcon from 'mdi-react/RulerIcon';
 import DownloadIcon from 'mdi-react/DownloadIcon';
+import CardIcon from 'mdi-react/CardIcon';
 
 const Sidebar = ({
   setScale,
@@ -11,7 +12,7 @@ const Sidebar = ({
 }) => {
   return (
     <div id="sidebar">
-      <h1>Footprints</h1>
+      <h1>Footprinter</h1>
 
       <input
         type="text"
@@ -24,10 +25,10 @@ const Sidebar = ({
           <RulerIcon /> Set Scale
         </li>
 
-        <li>Place Pad</li>
-
-        <li onClick={addPad}>Rectangle</li>
-        <li>Circle</li>
+        <li onClick={addPad}>
+          <CardIcon />
+          Place pad
+        </li>
 
         <li onClick={exportFile}>
           <DownloadIcon /> Export KiCad Footprint

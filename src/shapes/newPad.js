@@ -1,5 +1,13 @@
 import { fabric } from 'fabric';
 
+export const initPad = (pad, pinNum) => {
+  const label = pad.item(1);
+  label.set('text', String(pinNum));
+
+  pad.isPad = true;
+  pad.pinNum = pinNum;
+};
+
 export default function newPad(pinNum = '1') {
   const rect = new fabric.Rect({
     width: 100,
@@ -7,7 +15,7 @@ export default function newPad(pinNum = '1') {
     fill: 'red'
   });
 
-  const label = new fabric.Text(String(pinNum), {
+  const label = new fabric.Text('', {
     left: 50,
     top: 80,
     fontFamily: 'Arial',
@@ -19,7 +27,8 @@ export default function newPad(pinNum = '1') {
 
   const group = new fabric.Group([rect, label], {
     left: 75,
-    top: 125
+    top: 125,
+    hasRotatingPoint: false
   });
 
   group.on('scaling', evt => {
@@ -31,8 +40,7 @@ export default function newPad(pinNum = '1') {
     text.set('scaleY', scaleY);
   });
 
-  group.isPad = true;
-  group.pinNum = pinNum;
+  initPad(group, pinNum);
 
   return group;
 }

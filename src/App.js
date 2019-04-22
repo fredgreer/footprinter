@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import hotkeys from 'hotkeys-js';
 import { fabric } from 'fabric';
 import Dropzone from 'react-dropzone';
+
+import './App.css';
 
 import fileToBase64 from './util/fileToBase64';
 import exampleImg from './util/exampleImg';
@@ -11,7 +13,7 @@ import NullState from './components/NullState';
 import Sidebar from './components/Sidebar';
 import ScaleBar from './components/ScaleBar';
 
-import newPad from './shapes/newPad';
+import newPad, { initPad } from './shapes/newPad';
 
 import { UI_STATES } from './constants';
 
@@ -22,6 +24,8 @@ class App extends Component {
     selectedPadPinNum: ''
   };
 
+  _clipboard = null;
+
   setupCanvas = () => {
     this.canvas = new fabric.Canvas('canvas', { uniScaleTransform: true });
     const main = document.getElementById('main');
@@ -30,12 +34,43 @@ class App extends Component {
 
     const canvas = this.canvas;
 
-    document.addEventListener('keyup', evt => {
-      const key = evt.key;
+    const that = this;
 
-      if (['Delete', 'Backspace'].includes(key)) {
-        canvas.remove(canvas.getActiveObject());
-      }
+    canvas.on('mouse:move', options => {
+      canvas.pointerX = options.e.layerX;
+      canvas.pointerY = options.e.layerY;
+    });
+
+    hotkeys('backspace,delete', evt => {
+      canvas.remove(canvas.getActiveObject());
+    });
+
+    hotkeys('command+c,ctrl+c', evt => {
+      const obj = canvas.getActiveObject();
+
+      if (!obj) return;
+
+      canvas.getActiveObject().clone(cloned => {
+        that._clipboard = cloned;
+      });
+    });
+
+    hotkeys('command+v,ctrl+v', evt => {
+      if (!this._clipboard) return;
+
+      const canvas = this.canvas;
+
+      this._clipboard.clone(clonedObj => {
+        clonedObj.set({
+          top: canvas.pointerY,
+          left: canvas.pointerX
+        });
+
+        initPad(clonedObj, this.getNextPinNumber());
+
+        canvas.add(clonedObj);
+        canvas.setActiveObject(clonedObj);
+      });
     });
 
     canvas.on('object:selected', evt => {
@@ -121,14 +156,26 @@ class App extends Component {
     });
   };
 
-  addPad = () => {
-    const { nextPinNum } = this.state;
-
-    this.canvas.add(newPad(nextPinNum));
-
+  incrementPinNumber = () => {
     this.setState({
-      nextPinNum: nextPinNum + 1
+      nextPinNum: this.state.nextPinNum + 1
     });
+  };
+
+  getNextPinNumber = () => {
+    const nextPin = this.state.nextPinNum;
+    this.incrementPinNumber();
+
+    return nextPin;
+  };
+
+  addPad = () => {
+    const pad = newPad(this.getNextPinNumber());
+
+    this.canvas.add(pad);
+    this.canvas.setActiveObject(pad);
+
+    this.incrementPinNumber();
   };
 
   changeSelectedPadPinNum = evt => {
@@ -136,9 +183,7 @@ class App extends Component {
     this.setState({ selectedPadPinNum: val });
 
     const pad = this.canvas.getActiveObject();
-    pad.pinNum = val;
-    const text = pad.item(1);
-    text.set('text', val);
+    initPad(pad, val);
 
     this.canvas.renderAll();
   };

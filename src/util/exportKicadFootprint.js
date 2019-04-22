@@ -69,11 +69,12 @@ export const kicadModule = (name, padPhysicalCoords) => {
 
 export default function exportKicadFootprint(canvas, scalePPI) {
   const objects = canvas._objects;
+  const pads = objects.filter(o => o.isPad);
 
-  const pixelExtent = findExtent(objects);
+  const pixelExtent = findExtent(pads);
   const pixelOrigin = findPixelCenter(pixelExtent);
 
-  const padPixelCoords = objects.map(o => getPadPixelCoords(o, pixelOrigin));
+  const padPixelCoords = pads.map(o => getPadPixelCoords(o, pixelOrigin));
 
   const padPhysicalCoords = padPixelCoords.map(o =>
     getPadPhysicalCoords(o, scalePPI)

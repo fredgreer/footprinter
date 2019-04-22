@@ -31,6 +31,7 @@ export default function newPad(pinNum = '1') {
     text.set('scaleY', scaleY);
   });
 
+  group.isPad = true;
   group.pinNum = pinNum;
 
   return group;

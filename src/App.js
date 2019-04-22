@@ -9,7 +9,6 @@ import exportKicadFootprint from './util/exportKicadFootprint';
 
 import NullState from './components/NullState';
 import Sidebar from './components/Sidebar';
-import BackgroundImage from './components/BackgroundImage';
 import ScaleBar from './components/ScaleBar';
 
 import newPad from './shapes/newPad';
@@ -18,7 +17,6 @@ import { UI_STATES } from './constants';
 
 class App extends Component {
   state = {
-    image: null,
     uiState: UI_STATES.AWAITING_IMAGE,
     nextPinNum: 1,
     selectedPadPinNum: ''
@@ -56,17 +54,56 @@ class App extends Component {
   setExample = evt => {
     evt.preventDefault();
 
+    this.setBgImage(exampleImg);
+
     this.setState({
-      image: exampleImg,
       uiState: UI_STATES.SET_SCALE
+    });
+  };
+
+  setBgImage = imageData => {
+    const canvas = this.canvas;
+
+    canvas._objects.filter(o => o.isBgImage).map(o => canvas.remove(o));
+
+    fabric.Image.fromURL(imageData, imgObj => {
+      const height = canvas.height - 48;
+      const width = canvas.width - 48;
+
+      let scale = height / imgObj.height;
+
+      if (imgObj.width * scale > width) {
+        scale = width / imgObj.width;
+      }
+
+      imgObj.set({
+        originX: 'center',
+        originY: 'center',
+        top: canvas.height / 2,
+        left: canvas.width / 2,
+        scaleX: scale,
+        scaleY: scale,
+        hasControls: false,
+        hasBorders: false,
+        selectable: false,
+        lockMovementX: true,
+        lockMovementY: true,
+        hoverCursor: 'default'
+      });
+
+      imgObj.isBgImage = true;
+
+      canvas.add(imgObj);
+      imgObj.sendToBack();
     });
   };
 
   handleDrop = async acceptedFiles => {
     const b64 = await fileToBase64(acceptedFiles[0]);
-    console.log(b64);
+
+    this.setBgImage(b64);
+
     this.setState({
-      image: b64,
       uiState: UI_STATES.SET_SCALE
     });
   };
@@ -113,7 +150,7 @@ class App extends Component {
   };
 
   render() {
-    const { image, uiState, selectedPadPinNum } = this.state;
+    const { uiState, selectedPadPinNum } = this.state;
     return (
       <Dropzone onDrop={this.handleDrop}>
         {({ getRootProps, getInputProps }) => (
@@ -129,8 +166,6 @@ class App extends Component {
               {uiState === UI_STATES.AWAITING_IMAGE && (
                 <NullState setExample={this.setExample} />
               )}
-
-              {!!image && <BackgroundImage imageData={image} />}
 
               {uiState === UI_STATES.SET_SCALE && (
                 <ScaleBar

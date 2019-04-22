@@ -1,7 +1,9 @@
 import React from 'react';
 import RulerIcon from 'mdi-react/RulerIcon';
 import DownloadIcon from 'mdi-react/DownloadIcon';
-import CardIcon from 'mdi-react/CardIcon';
+import CardOutlineIcon from 'mdi-react/CardOutlineIcon';
+import TargetIcon from 'mdi-react/TargetIcon';
+import RestartIcon from 'mdi-react/RestartIcon';
 
 import PadDetails from './PadDetails';
 
@@ -14,7 +16,8 @@ const Sidebar = ({
   changeSelectedPadPinNum,
   footprintName,
   setFootprintName,
-  changePinDimension
+  changePinDimension,
+  resetWorkspace
 }) => {
   return (
     <div id="sidebar">
@@ -32,14 +35,25 @@ const Sidebar = ({
         <li onClick={setScale}>
           <RulerIcon /> Set Scale
         </li>
+      </ul>
 
+      <ul className="actions">
         <li onClick={addPad}>
-          <CardIcon />
+          <CardOutlineIcon />
           Place pad
         </li>
+        <li onClick={addPad}>
+          <TargetIcon />
+          Place origin
+        </li>
+      </ul>
 
+      <ul className="actions">
         <li onClick={exportFile}>
           <DownloadIcon /> Export KiCad Footprint
+        </li>
+        <li onClick={resetWorkspace}>
+          <RestartIcon /> Reset Workspace
         </li>
       </ul>
 

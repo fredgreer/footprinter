@@ -18,15 +18,22 @@ import newPad, { initPad } from './shapes/newPad';
 
 import { UI_STATES } from './constants';
 
+const INITIAL_STATE = {
+  uiState: UI_STATES.AWAITING_IMAGE,
+  scalePPI: null,
+  nextPinNum: 1,
+  selectedPadPinNum: '',
+  selectedPadDimensions: null,
+  footprintName: ''
+};
+
 class App extends Component {
-  state = {
-    uiState: UI_STATES.AWAITING_IMAGE,
-    scalePPI: null,
-    nextPinNum: 1,
-    selectedPadPinNum: '',
-    selectedPadDimensions: null,
-    footprintName: ''
-  };
+  constructor() {
+    super();
+
+    this.state = Object.assign({}, INITIAL_STATE);
+  }
+  state = INITIAL_STATE;
 
   _clipboard = null;
 
@@ -46,7 +53,10 @@ class App extends Component {
     });
 
     hotkeys('backspace,delete', evt => {
-      canvas.remove(canvas.getActiveObject());
+      const obj = canvas.getActiveObject();
+      if (obj && obj.isPad) {
+        canvas.remove(obj);
+      }
     });
 
     hotkeys('command+c,ctrl+c', evt => {
@@ -249,6 +259,16 @@ class App extends Component {
     exportKicadFootprint(this.canvas, scalePPI, footprintName);
   };
 
+  resetWorkspace = () => {
+    const msg =
+      'Are you sure you want to clear the workspace? All changes will be lost.';
+
+    if (window.confirm(msg)) {
+      this.setState(INITIAL_STATE);
+      this.canvas.clear();
+    }
+  };
+
   render() {
     const {
       uiState,
@@ -270,6 +290,7 @@ class App extends Component {
               footprintName={footprintName}
               setFootprintName={this.setFootprintName}
               changePinDimension={this.changePinDimension}
+              resetWorkspace={this.resetWorkspace}
             />
             <div id="main">
               {uiState === UI_STATES.AWAITING_IMAGE && (

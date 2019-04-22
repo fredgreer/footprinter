@@ -49,16 +49,19 @@ button {
 .footprint-name {
   font-size: 16px;
   padding: 8px 12px;
-  width: 250px;
-  margin-left: 8px;
   text-align: left;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
+  width: calc(100% - 24px);
+  margin-left: 12px;
+  box-sizing: border-box;
 }
 
 #sidebar .actions {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  border-top: 1px solid #ddd;
+  margin-bottom: 24px;
 }
 
 #sidebar .actions li {

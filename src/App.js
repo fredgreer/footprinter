@@ -20,7 +20,8 @@ class App extends Component {
   state = {
     image: null,
     uiState: UI_STATES.AWAITING_IMAGE,
-    nextPinNum: 1
+    nextPinNum: 1,
+    selectedPadPinNum: ''
   };
 
   setupCanvas = () => {
@@ -37,6 +38,14 @@ class App extends Component {
       if (['Delete', 'Backspace'].includes(key)) {
         canvas.remove(canvas.getActiveObject());
       }
+    });
+
+    canvas.on('object:selected', evt => {
+      const pad = evt.target;
+
+      this.setState({
+        selectedPadPinNum: pad.pinNum
+      });
     });
   };
 
@@ -85,6 +94,18 @@ class App extends Component {
     });
   };
 
+  changeSelectedPadPinNum = evt => {
+    const val = evt.target.value;
+    this.setState({ selectedPadPinNum: val });
+
+    const pad = this.canvas.getActiveObject();
+    pad.pinNum = val;
+    const text = pad.item(1);
+    text.set('text', val);
+
+    this.canvas.renderAll();
+  };
+
   exportFile = () => {
     const { scalePPI } = this.state;
 
@@ -92,7 +113,7 @@ class App extends Component {
   };
 
   render() {
-    const { image, uiState } = this.state;
+    const { image, uiState, selectedPadPinNum } = this.state;
     return (
       <Dropzone onDrop={this.handleDrop}>
         {({ getRootProps, getInputProps }) => (
@@ -101,6 +122,8 @@ class App extends Component {
               setScale={this.setScale}
               addPad={this.addPad}
               exportFile={this.exportFile}
+              selectedPadPinNum={selectedPadPinNum}
+              changeSelectedPadPinNum={this.changeSelectedPadPinNum}
             />
             <div id="main">
               {uiState === UI_STATES.AWAITING_IMAGE && (

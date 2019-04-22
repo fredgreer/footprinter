@@ -2,12 +2,22 @@ import React from 'react';
 import RulerIcon from 'mdi-react/RulerIcon';
 import DownloadIcon from 'mdi-react/DownloadIcon';
 
-const Sidebar = ({ setScale, addPad, exportFile }) => {
+const Sidebar = ({
+  setScale,
+  addPad,
+  exportFile,
+  selectedPadPinNum,
+  changeSelectedPadPinNum
+}) => {
   return (
     <div id="sidebar">
       <h1>Footprints</h1>
 
-      <input type="text" value="Part Name" className="part-name" />
+      <input
+        type="text"
+        placeholder="Enter footprint name..."
+        className="footprint-name"
+      />
 
       <ul className="actions">
         <li onClick={setScale}>
@@ -31,7 +41,11 @@ const Sidebar = ({ setScale, addPad, exportFile }) => {
       <div id="pad-details">
         <div className="input-group">
           <label>Pin number</label>
-          <input type="text" />
+          <input
+            type="text"
+            value={selectedPadPinNum}
+            onChange={changeSelectedPadPinNum}
+          />
         </div>
 
         <hr />

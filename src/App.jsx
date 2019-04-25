@@ -9,6 +9,7 @@ import fileToBase64 from './util/fileToBase64';
 import exampleImg from './util/exampleImg';
 import exportKicadFootprint from './util/exportKicadFootprint';
 import getPadDimensions from './util/getPadDimensions';
+import { getHighestPinNum } from './util/canvasHelpers';
 
 import NullState from './components/NullState';
 import Sidebar from './components/Sidebar';
@@ -68,6 +69,10 @@ class App extends Component {
       const obj = canvas.getActiveObject();
       if (obj && obj.isPad) {
         canvas.remove(obj);
+
+        this.setState({
+          nextPinNum: getHighestPinNum(canvas) + 1
+        });
       }
     });
 

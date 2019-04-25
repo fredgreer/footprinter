@@ -14,6 +14,7 @@ import { getHighestPinNum } from './util/canvasHelpers';
 import NullState from './components/NullState';
 import Sidebar from './components/Sidebar';
 import ScaleBar from './components/ScaleBar';
+import ScaleBarHelp from './components/ScaleBarHelp';
 
 import newPad, { initPad } from './shapes/newPad';
 import origin from './shapes/origin';
@@ -273,12 +274,10 @@ class App extends Component {
     const left = Math.max(pointerX, 100);
     const top = Math.max(pointerY, 100);
 
-    const pad = newPad(this.getNextPinNumber(), left, top);
+    const pad = newPad(this.getNextPinNumber(), left, top, 100, 160);
 
     this.canvas.add(pad);
     this.canvas.setActiveObject(pad);
-
-    this.incrementPinNumber();
   };
 
   toggleOrigin = () => {
@@ -397,6 +396,8 @@ class App extends Component {
               {uiState === UI_STATES.AWAITING_IMAGE && (
                 <NullState setExample={this.setExample} />
               )}
+
+              {uiState === UI_STATES.SET_SCALE && <ScaleBarHelp />}
 
               {uiState === UI_STATES.SET_SCALE && (
                 <ScaleBar

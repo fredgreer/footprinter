@@ -8,21 +8,21 @@ export const initPad = (pad, pinNum) => {
   pad.pinNum = pinNum;
 };
 
-export default function newPad(pinNum = '1', left, top) {
+export default function newPad(pinNum = '1', left, top, width, height) {
   const rect = new fabric.Rect({
-    width: 100,
-    height: 160,
+    width: width,
+    height: height,
     fill: 'red'
   });
 
   const label = new fabric.Text('', {
-    left: 50,
-    top: 80,
+    left: width / 2,
+    top: height / 2,
     fontFamily: 'Arial',
     textAlign: 'center',
     originX: 'center',
     originY: 'center',
-    fixedWidth: 100
+    fixedWidth: width
   });
 
   const group = new fabric.Group([rect, label], {

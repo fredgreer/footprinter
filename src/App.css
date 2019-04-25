@@ -164,4 +164,27 @@ hr {
   float: right;
   color: #999;
   font-weight: 600;
+  padding-right: 4px;
+}
+
+.help-container {
+  padding: 12px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.help-text {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.help-text p {
+  margin: 0;
 }

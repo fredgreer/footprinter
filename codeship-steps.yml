@@ -1,6 +1,6 @@
 - name: test
   service: node
-  command: cd /app && yarn test
+  command: /app/ci/test.sh
 
 - name: build
   service: node

@@ -28,7 +28,13 @@ const INITIAL_STATE = {
   footprintName: '',
   originPixelCoords: null,
   offsetLocked: false,
-  showOrigin: false
+  showOrigin: false,
+  scaleBar: {
+    left: 100,
+    top: 300,
+    scaleX: 1,
+    enteredLength: '1.00'
+  }
 };
 
 class App extends Component {
@@ -204,9 +210,10 @@ class App extends Component {
     });
   };
 
-  handleScaleSubmit = scalePPI => {
+  handleScaleSubmit = (scalePPI, scaleBar) => {
     this.setState({
       scalePPI,
+      scaleBar,
       uiState: UI_STATES.DRAW
     });
   };
@@ -325,7 +332,8 @@ class App extends Component {
       uiState,
       selectedPadPinNum,
       selectedPadDimensions,
-      footprintName
+      footprintName,
+      scaleBar
     } = this.state;
     return (
       <Dropzone onDrop={this.handleDrop}>
@@ -353,6 +361,7 @@ class App extends Component {
                 <ScaleBar
                   canvas={this.canvas}
                   handleSubmit={this.handleScaleSubmit}
+                  scaleBar={scaleBar}
                 />
               )}
 

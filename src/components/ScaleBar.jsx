@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 
-import scaleBar from '../shapes/scaleBar';
+import newScaleBar from '../shapes/newScaleBar';
 
 export default class ScaleBar extends Component {
   state = {
-    enteredLength: '1.00',
+    enteredLength: '',
     barWidth: null
   };
   componentDidMount() {
-    const { canvas } = this.props;
+    const { canvas, scaleBar } = this.props;
 
-    this.bar = scaleBar();
+    const { left, top, scaleX, enteredLength } = scaleBar;
+
+    this.setState({ enteredLength });
+
+    this.bar = newScaleBar(left, top, scaleX);
     this.bar.on('moving', this.handleMove);
     this.bar.on('scaling', this.handleMove);
     this.handleMove({ target: this.bar });
@@ -38,7 +42,14 @@ export default class ScaleBar extends Component {
 
     const scalePPI = barWidth / enteredLength;
 
-    this.props.handleSubmit(scalePPI);
+    const scaleBar = {
+      left: this.bar.left,
+      top: this.bar.top,
+      scaleX: this.bar.scaleX,
+      enteredLength
+    };
+
+    this.props.handleSubmit(scalePPI, scaleBar);
 
     canvas.remove(this.bar);
   };

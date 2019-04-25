@@ -1,11 +1,11 @@
-- name: test
-  service: node
-  command: /app/ci/test.sh
-
 - name: build
   service: node
   tag: master
   command: /app/ci/build_prod.sh
+
+- name: test
+  service: node
+  command: /app/ci/test.sh
 
 - service: awsdeployment
   tag: master

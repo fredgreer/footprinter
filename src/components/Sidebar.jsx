@@ -35,6 +35,7 @@ const Sidebar = ({
       <ul className="actions">
         <li onClick={setScale}>
           <RulerIcon /> Set Scale
+          <span className="hotkey">(s)</span>
         </li>
       </ul>
 
@@ -42,6 +43,7 @@ const Sidebar = ({
         <li onClick={addPad}>
           <CardOutlineIcon />
           Place pad
+          <span className="hotkey">(p)</span>
         </li>
         {/* <li onClick={toggleOrigin}>
           <TargetIcon />
@@ -52,6 +54,7 @@ const Sidebar = ({
       <ul className="actions">
         <li onClick={exportFile}>
           <DownloadIcon /> Export KiCad Footprint
+          <span className="hotkey">(e)</span>
         </li>
         <li onClick={resetWorkspace}>
           <RestartIcon /> Reset Workspace
@@ -69,7 +72,7 @@ const Sidebar = ({
         </a>
       </div>
 
-      {selectedPadPinNum && (
+      {selectedPadPinNum !== null && (
         <PadDetails
           selectedPadPinNum={selectedPadPinNum}
           changeSelectedPadPinNum={changeSelectedPadPinNum}

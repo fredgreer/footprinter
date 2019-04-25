@@ -8,7 +8,7 @@ export const initPad = (pad, pinNum) => {
   pad.pinNum = pinNum;
 };
 
-export default function newPad(pinNum = '1') {
+export default function newPad(pinNum = '1', left, top) {
   const rect = new fabric.Rect({
     width: 100,
     height: 160,
@@ -26,8 +26,8 @@ export default function newPad(pinNum = '1') {
   });
 
   const group = new fabric.Group([rect, label], {
-    left: 75,
-    top: 125,
+    left,
+    top,
     originX: 'center',
     originY: 'center'
   });

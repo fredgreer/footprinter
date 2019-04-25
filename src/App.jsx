@@ -24,7 +24,7 @@ const INITIAL_STATE = {
   uiState: UI_STATES.AWAITING_IMAGE,
   scalePPI: null,
   nextPinNum: 1,
-  selectedPadPinNum: '',
+  selectedPadPinNum: null,
   selectedPadDimensions: null,
   footprintName: '',
   originPixelCoords: null,
@@ -128,6 +128,10 @@ class App extends Component {
     hotkeys('down', evt => {
       movePad(evt, 'top', 1);
     });
+
+    hotkeys('s', this.setScale);
+    hotkeys('p', this.addPad);
+    hotkeys('e', this.exportFile);
 
     const handleSelection = evt => {
       const { scalePPI } = this.state;
@@ -264,7 +268,12 @@ class App extends Component {
   };
 
   addPad = () => {
-    const pad = newPad(this.getNextPinNumber());
+    const { pointerX, pointerY } = this.canvas;
+
+    const left = Math.max(pointerX, 100);
+    const top = Math.max(pointerY, 100);
+
+    const pad = newPad(this.getNextPinNumber(), left, top);
 
     this.canvas.add(pad);
     this.canvas.setActiveObject(pad);

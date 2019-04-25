@@ -159,3 +159,9 @@ hr {
   border-bottom: 1px solid #ddd;
   margin: 24px 8px;
 }
+
+.hotkey {
+  float: right;
+  color: #999;
+  font-weight: 600;
+}

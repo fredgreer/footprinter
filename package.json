@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
     "fabric": "^2.7.0",
     "file-saver": "^2.0.1",
     "hotkeys-js": "^3.6.2",

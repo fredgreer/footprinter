@@ -4,10 +4,25 @@ import DownloadIcon from 'mdi-react/DownloadIcon';
 import CardOutlineIcon from 'mdi-react/CardOutlineIcon';
 import TargetIcon from 'mdi-react/TargetIcon';
 import RestartIcon from 'mdi-react/RestartIcon';
-
+import cn from 'classnames';
 import PadDetails from './PadDetails';
+import { UI_STATES } from '../constants';
+
+const SidebarOption = ({ Icon, text, onClick, isDisabled, hotkey = null }) => {
+  const handleClick = () => {
+    if (!isDisabled) onClick();
+  };
+
+  return (
+    <li onClick={handleClick} className={cn({ disabled: isDisabled })}>
+      <Icon /> {text}
+      {hotkey && <span className="hotkey">({hotkey})</span>}
+    </li>
+  );
+};
 
 const Sidebar = ({
+  uiState,
   setScale,
   addPad,
   toggleOrigin,
@@ -33,32 +48,41 @@ const Sidebar = ({
       />
 
       <ul className="actions">
-        <li onClick={setScale}>
-          <RulerIcon /> Set Scale
-          <span className="hotkey">(s)</span>
-        </li>
+        <SidebarOption
+          Icon={RulerIcon}
+          text="Set Scale"
+          hotkey="s"
+          onClick={setScale}
+          isDisabled={uiState !== UI_STATES.DRAW}
+        />
       </ul>
 
       <ul className="actions">
-        <li onClick={addPad}>
-          <CardOutlineIcon />
-          Place pad
-          <span className="hotkey">(p)</span>
-        </li>
-        {/* <li onClick={toggleOrigin}>
-          <TargetIcon />
-          Place origin
-        </li>*/}
+        <SidebarOption
+          Icon={CardOutlineIcon}
+          text="Place Pad"
+          hotkey="p"
+          onClick={addPad}
+          isDisabled={uiState !== UI_STATES.DRAW}
+        />
       </ul>
 
       <ul className="actions">
-        <li onClick={exportFile}>
-          <DownloadIcon /> Export KiCad Footprint
-          <span className="hotkey">(e)</span>
-        </li>
-        <li onClick={resetWorkspace}>
-          <RestartIcon /> Reset Workspace
-        </li>
+        <SidebarOption
+          Icon={DownloadIcon}
+          text="Export KiCad Footprint"
+          hotkey="e"
+          onClick={exportFile}
+          isDisabled={uiState !== UI_STATES.DRAW}
+        />
+
+        <SidebarOption
+          Icon={RestartIcon}
+          text="Reset Workspace"
+          onClick={resetWorkspace}
+          isDisabled={false}
+          isDisabled={uiState === UI_STATES.AWAITING_IMAGE}
+        />
       </ul>
 
       <div className="links">

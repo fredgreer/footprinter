@@ -389,6 +389,7 @@ class App extends Component {
         {({ getRootProps, getInputProps }) => (
           <div className="App" {...getRootProps()}>
             <Sidebar
+              uiState={uiState}
               setScale={this.setScale}
               addPad={this.addPad}
               toggleOrigin={this.toggleOrigin}

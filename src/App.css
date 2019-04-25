@@ -72,6 +72,11 @@ button {
   cursor: pointer;
 }
 
+#sidebar .actions li.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 #sidebar .links {
   margin-top: 24px;
   text-align: center;

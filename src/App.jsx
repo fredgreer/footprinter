@@ -83,6 +83,10 @@ class App extends Component {
       if (!obj) return;
 
       canvas.getActiveObject().clone(cloned => {
+        // Clone's scale is truncated by default
+        cloned.scaleX = obj.scaleX;
+        cloned.scaleY = obj.scaleY;
+
         that._clipboard = cloned;
       });
     });
@@ -91,8 +95,13 @@ class App extends Component {
       if (!this._clipboard) return;
 
       const canvas = this.canvas;
+      const clipboard = this._clipboard;
 
-      this._clipboard.clone(clonedObj => {
+      clipboard.clone(clonedObj => {
+        // Clone's scale is truncated by default
+        clonedObj.scaleX = clipboard.scaleX;
+        clonedObj.scaleY = clipboard.scaleY;
+
         clonedObj.set({
           top: canvas.pointerY,
           left: canvas.pointerX
@@ -139,7 +148,7 @@ class App extends Component {
 
       const pad = this.canvas.getActiveObject();
 
-      if (!pad) {
+      if (!pad || !pad.isPad) {
         return this.setState({
           selectedPadPinNum: null,
           selectedPadDimensions: null

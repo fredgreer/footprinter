@@ -120,6 +120,8 @@ class App extends Component {
     canvas.on('object:selected', handleSelection);
     canvas.on('selection:updated', handleSelection);
     canvas.on('selection:cleared', handleSelection);
+
+    canvas.on('object:scaling', handleSelection);
   };
 
   setupOrigin = () => {

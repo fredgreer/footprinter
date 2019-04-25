@@ -93,23 +93,27 @@ class App extends Component {
       });
     });
 
-    canvas.on('object:selected', evt => {
+    const handleSelection = evt => {
       const { scalePPI } = this.state;
 
-      const pad = evt.target;
+      const pad = this.canvas.getActiveObject();
+
+      if (!pad) {
+        return this.setState({
+          selectedPadPinNum: null,
+          selectedPadDimensions: null
+        });
+      }
 
       this.setState({
         selectedPadPinNum: pad.pinNum,
         selectedPadDimensions: getPadDimensions(pad, scalePPI)
       });
+    };
 
-      pad.on('deselected', () => {
-        this.setState({
-          selectedPadPinNum: null,
-          selectedPadDimensions: null
-        });
-      });
-    });
+    canvas.on('object:selected', handleSelection);
+    canvas.on('selection:updated', handleSelection);
+    canvas.on('selection:cleared', handleSelection);
   };
 
   setupOrigin = () => {

@@ -15,6 +15,7 @@ import Sidebar from './components/Sidebar';
 import ScaleBar from './components/ScaleBar';
 
 import newPad, { initPad } from './shapes/newPad';
+import origin from './shapes/origin';
 
 import { UI_STATES } from './constants';
 
@@ -24,7 +25,10 @@ const INITIAL_STATE = {
   nextPinNum: 1,
   selectedPadPinNum: '',
   selectedPadDimensions: null,
-  footprintName: ''
+  footprintName: '',
+  originPixelCoords: null,
+  offsetLocked: false,
+  showOrigin: false
 };
 
 class App extends Component {
@@ -44,6 +48,8 @@ class App extends Component {
     this.canvas.setHeight(main.offsetHeight);
 
     const canvas = this.canvas;
+
+    this.setupOrigin();
 
     const that = this;
 
@@ -104,6 +110,27 @@ class App extends Component {
         });
       });
     });
+  };
+
+  setupOrigin = () => {
+    const canvas = this.canvas;
+
+    const ori = origin();
+    ori.set({
+      left: canvas.width / 2,
+      top: canvas.height / 2,
+      selectable: false,
+      opacity: 0
+    });
+
+    canvas.add(ori);
+    ori.moveTo(999);
+
+    this.setState({
+      originPixelCoords: [canvas.width / 2, canvas.height / 2]
+    });
+
+    this.origin = ori;
   };
 
   componentDidMount() {
@@ -202,6 +229,26 @@ class App extends Component {
     this.incrementPinNumber();
   };
 
+  toggleOrigin = () => {
+    const { showOrigin } = this.state;
+
+    if (showOrigin) {
+      this.origin.set({
+        opacity: 0,
+        selectable: false
+      });
+    } else {
+      this.origin.set({
+        opacity: 1,
+        selectable: true
+      });
+    }
+
+    this.setState({ showOrigin: !showOrigin });
+
+    this.canvas.renderAll();
+  };
+
   changeSelectedPadPinNum = evt => {
     const val = evt.target.value;
     this.setState({ selectedPadPinNum: val });
@@ -283,6 +330,7 @@ class App extends Component {
             <Sidebar
               setScale={this.setScale}
               addPad={this.addPad}
+              toggleOrigin={this.toggleOrigin}
               exportFile={this.exportFile}
               selectedPadPinNum={selectedPadPinNum}
               selectedPadDimensions={selectedPadDimensions}

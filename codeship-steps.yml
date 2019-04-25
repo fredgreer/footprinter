@@ -1,0 +1,8 @@
+- name: build
+  service: node
+  tag: master
+  command: /app/ci/build_prod.sh
+
+- service: awsdeployment
+  tag: master
+  command: aws s3 cp /deploy/dist s3://footprinter.xyz/ --recursive

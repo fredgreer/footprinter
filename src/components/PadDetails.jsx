@@ -18,7 +18,7 @@ const PadDetails = ({
       </div>
 
       <hr />
-
+      {/*
       <div className="input-group">
         <label>X</label>
         <input type="number" />
@@ -30,7 +30,7 @@ const PadDetails = ({
         <input type="number" />
         <span className="units">mm</span>
       </div>
-
+*/}
       <div className="input-group">
         <label>Width</label>
         <input

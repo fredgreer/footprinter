@@ -10,6 +10,7 @@ import PadDetails from './PadDetails';
 const Sidebar = ({
   setScale,
   addPad,
+  toggleOrigin,
   exportFile,
   selectedPadPinNum,
   selectedPadDimensions,
@@ -42,10 +43,10 @@ const Sidebar = ({
           <CardOutlineIcon />
           Place pad
         </li>
-        <li onClick={addPad}>
+        {/* <li onClick={toggleOrigin}>
           <TargetIcon />
           Place origin
-        </li>
+        </li>*/}
       </ul>
 
       <ul className="actions">

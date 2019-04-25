@@ -99,6 +99,31 @@ class App extends Component {
       });
     });
 
+    const movePad = (evt, direction, amount) => {
+      const pad = this.canvas.getActiveObject();
+      if (!pad) return;
+
+      pad[direction] += amount;
+
+      canvas.renderAll();
+    };
+
+    hotkeys('left', evt => {
+      movePad(evt, 'left', -1);
+    });
+
+    hotkeys('right', evt => {
+      movePad(evt, 'left', 1);
+    });
+
+    hotkeys('up', evt => {
+      movePad(evt, 'top', -1);
+    });
+
+    hotkeys('down', evt => {
+      movePad(evt, 'top', 1);
+    });
+
     const handleSelection = evt => {
       const { scalePPI } = this.state;
 

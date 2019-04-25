@@ -1,3 +1,7 @@
+- name: test
+  service: node
+  command: cd /app && yarn test
+
 - name: build
   service: node
   tag: master

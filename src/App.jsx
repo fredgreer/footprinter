@@ -241,6 +241,10 @@ class App extends Component {
   };
 
   handleDrop = async acceptedFiles => {
+    const { uiState } = this.state;
+
+    if (uiState !== UI_STATES.AWAITING_IMAGE) return;
+
     const b64 = await fileToBase64(acceptedFiles[0]);
 
     this.setBgImage(b64);

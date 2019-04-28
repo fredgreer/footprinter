@@ -1,7 +1,3 @@
-# - name: build
-#   service: node
-#   command: /app/ci/build_prod.sh
-
 - name: test
   service: workshop
   command: ./ci/test.sh
@@ -9,6 +5,13 @@
 - name: build
   service: workshop
   command: ./ci/build.sh
-# - service: awsdeployment
-#   tag: master
-#   command: aws s3 cp /deploy/dist s3://footprinter.xyz/ --recursive
+
+- name: deploy staging
+  tag: master
+  service: deployer
+  command: sh ./codeship/steps/deploy.sh uat.footprinter.xyz
+
+- name: deploy prod
+  tag: production
+  service: deployer
+  command: sh ./codeship/steps/deploy.sh footprinter.xyz

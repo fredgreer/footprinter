@@ -2,7 +2,6 @@ import React from 'react';
 import RulerIcon from 'mdi-react/RulerIcon';
 import DownloadIcon from 'mdi-react/DownloadIcon';
 import CardOutlineIcon from 'mdi-react/CardOutlineIcon';
-import TargetIcon from 'mdi-react/TargetIcon';
 import RestartIcon from 'mdi-react/RestartIcon';
 import cn from 'classnames';
 import PadDetails from './PadDetails';
@@ -80,13 +79,19 @@ const Sidebar = ({
           Icon={RestartIcon}
           text="Reset Workspace"
           onClick={resetWorkspace}
-          isDisabled={false}
           isDisabled={uiState === UI_STATES.AWAITING_IMAGE}
         />
       </ul>
 
       <div className="links">
-        <a href="#">Help</a> |{' '}
+        <a
+          href="https://github.com/fredgreer/footprinter/help"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Help
+        </a>{' '}
+        |{' '}
         <a
           href="https://github.com/fredgreer/footprinter"
           target="_blank"

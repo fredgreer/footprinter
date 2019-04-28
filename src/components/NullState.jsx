@@ -5,10 +5,7 @@ const NullState = ({ setExample }) => {
     <div id="null-state">
       <h1>Drop footprint image to begin</h1>
       <p>
-        Or start with{' '}
-        <a href="#" onClick={setExample}>
-          an example
-        </a>
+        Or start with <button onClick={setExample}>an example</button>
       </p>
     </div>
   );

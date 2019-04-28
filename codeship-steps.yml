@@ -6,8 +6,7 @@
   service: workshop
   command: ./ci/test.sh
 
-
-  - name: build
+- name: build
   service: workshop
   command: ./ci/build.sh
 # - service: awsdeployment

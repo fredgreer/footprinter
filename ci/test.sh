@@ -1,7 +1,5 @@
-#!/usr/bin/env bash
-set -e
-set -u
+#!/bin/sh
+set -e -u
 
-cd /app
-
-yarn test
+yarn install
+yarn test -- --coverage

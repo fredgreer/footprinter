@@ -1,14 +1,13 @@
-node:
-  image: node:8
-  environment:
-    - ENV=production
+workshop:
+  image: node:alpine
   volumes:
-    - ./:/app
-
-awsdeployment:
-  image: codeship/aws-deployment
-  encrypted_env_file: aws-deployment.env.encrypted
-  environment:
-    - AWS_DEFAULT_REGION=us-east-1
-  volumes:
-    - ./:/deploy
+    - ./:/usr/src/app
+    - ./tmp/artifacts:/artifacts
+  working_dir: /usr/src/app
+# awsdeployment:
+#   image: codeship/aws-deployment
+#   encrypted_env_file: aws-deployment.env.encrypted
+#   environment:
+#     - AWS_DEFAULT_REGION=us-east-1
+#   volumes:
+#     - ./:/deploy

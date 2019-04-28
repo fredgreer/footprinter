@@ -206,7 +206,8 @@ class App extends Component {
     this.setBgImage(exampleImg);
 
     this.setState({
-      uiState: UI_STATES.SET_SCALE
+      uiState: UI_STATES.SET_SCALE,
+      footprintName: 'Korean Hroparts Elec PJ-614'
     });
   };
 
@@ -253,6 +254,8 @@ class App extends Component {
     if (uiState !== UI_STATES.AWAITING_IMAGE) return;
 
     const b64 = await fileToBase64(acceptedFiles[0]);
+
+    console.log(b64);
 
     this.setBgImage(b64);
 

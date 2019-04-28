@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ScaleBarHelp = ({}) => {
+const ScaleBarHelp = () => {
   return (
     <div className="help-container">
       <div className="help-text">

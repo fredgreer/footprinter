@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import hotkeys from 'hotkeys-js';
 import { fabric } from 'fabric';
 import Dropzone from 'react-dropzone';
+import ReactGA from 'react-ga';
 
 import './App.css';
 
@@ -189,7 +190,13 @@ class App extends Component {
     this.origin = ori;
   };
 
+  setupAnalytics = () => {
+    ReactGA.initialize('UA-139228159-1');
+    ReactGA.pageview('/');
+  };
+
   componentDidMount() {
+    this.setupAnalytics();
     this.setupCanvas();
   }
 

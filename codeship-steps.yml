@@ -9,9 +9,9 @@
 - name: deploy staging
   tag: master
   service: deployer
-  command: sh ./codeship/steps/deploy.sh uat.footprinter.xyz
+  command: sh ./ci/deploy.sh uat.footprinter.xyz
 
 - name: deploy prod
   tag: production
   service: deployer
-  command: sh ./codeship/steps/deploy.sh footprinter.xyz
+  command: sh ./ci/deploy.sh footprinter.xyz

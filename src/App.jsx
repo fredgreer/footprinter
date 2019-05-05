@@ -50,6 +50,44 @@ class App extends Component {
 
   _clipboard = null;
 
+  copy = () => {
+    const obj = this.canvas.getActiveObject();
+    const that = this;
+
+    if (!obj) return;
+
+    this.canvas.getActiveObject().clone(cloned => {
+      // Clone's scale is truncated by default
+      cloned.scaleX = obj.scaleX;
+      cloned.scaleY = obj.scaleY;
+
+      that._clipboard = cloned;
+    });
+  };
+
+  paste = () => {
+    if (!this._clipboard) return;
+
+    const canvas = this.canvas;
+    const clipboard = this._clipboard;
+
+    clipboard.clone(clonedObj => {
+      // Clone's scale is truncated by default
+      clonedObj.scaleX = clipboard.scaleX;
+      clonedObj.scaleY = clipboard.scaleY;
+
+      clonedObj.set({
+        top: canvas.pointerY,
+        left: canvas.pointerX
+      });
+
+      initPad(clonedObj, this.getNextPinNumber());
+
+      canvas.add(clonedObj);
+      canvas.setActiveObject(clonedObj);
+    });
+  };
+
   setupCanvas = () => {
     this.canvas = new fabric.Canvas('canvas', { uniScaleTransform: true });
     const main = document.getElementById('main');
@@ -78,41 +116,16 @@ class App extends Component {
       }
     });
 
-    hotkeys('command+c,ctrl+c', evt => {
-      const obj = canvas.getActiveObject();
+    document.addEventListener('keydown', evt => {
+      // Ctrl+C or Cmd+C
+      if ((evt.ctrlKey || evt.metaKey) && evt.keyCode == 67) {
+        this.copy();
+      }
 
-      if (!obj) return;
-
-      canvas.getActiveObject().clone(cloned => {
-        // Clone's scale is truncated by default
-        cloned.scaleX = obj.scaleX;
-        cloned.scaleY = obj.scaleY;
-
-        that._clipboard = cloned;
-      });
-    });
-
-    hotkeys('command+v,ctrl+v', evt => {
-      if (!this._clipboard) return;
-
-      const canvas = this.canvas;
-      const clipboard = this._clipboard;
-
-      clipboard.clone(clonedObj => {
-        // Clone's scale is truncated by default
-        clonedObj.scaleX = clipboard.scaleX;
-        clonedObj.scaleY = clipboard.scaleY;
-
-        clonedObj.set({
-          top: canvas.pointerY,
-          left: canvas.pointerX
-        });
-
-        initPad(clonedObj, this.getNextPinNumber());
-
-        canvas.add(clonedObj);
-        canvas.setActiveObject(clonedObj);
-      });
+      // Ctrl+V or Cmd+V
+      if ((evt.ctrlKey || evt.metaKey) && evt.keyCode == 86) {
+        this.paste();
+      }
     });
 
     const movePad = (evt, direction, amount) => {

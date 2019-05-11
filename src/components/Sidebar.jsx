@@ -36,8 +36,6 @@ const Sidebar = ({
 }) => {
   return (
     <div id="sidebar">
-      <h1>Footprinter</h1>
-
       <input
         type="text"
         placeholder="Enter footprint name..."

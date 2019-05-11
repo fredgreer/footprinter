@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import hotkeys from 'hotkeys-js';
 import { fabric } from 'fabric';
-import Dropzone from 'react-dropzone';
 import ReactGA from 'react-ga';
 
 import './App.css';
@@ -33,8 +32,8 @@ const INITIAL_STATE = {
   offsetLocked: false,
   showOrigin: false,
   scaleBar: {
-    left: 100,
-    top: 300,
+    left: 80,
+    top: 280,
     scaleX: 1,
     enteredLength: '1.00'
   }
@@ -98,8 +97,6 @@ class App extends Component {
 
     this.setupOrigin();
 
-    const that = this;
-
     canvas.on('mouse:move', options => {
       canvas.pointerX = options.e.layerX;
       canvas.pointerY = options.e.layerY;
@@ -118,12 +115,12 @@ class App extends Component {
 
     document.addEventListener('keydown', evt => {
       // Ctrl+C or Cmd+C
-      if ((evt.ctrlKey || evt.metaKey) && evt.keyCode == 67) {
+      if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === 67) {
         this.copy();
       }
 
       // Ctrl+V or Cmd+V
-      if ((evt.ctrlKey || evt.metaKey) && evt.keyCode == 86) {
+      if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === 86) {
         this.paste();
       }
     });
@@ -412,45 +409,44 @@ class App extends Component {
       scaleBar
     } = this.state;
     return (
-      <Dropzone onDrop={this.handleDrop}>
-        {({ getRootProps, getInputProps }) => (
-          <div className="App" {...getRootProps()}>
-            <Sidebar
-              uiState={uiState}
-              setScale={this.setScale}
-              addPad={this.addPad}
-              toggleOrigin={this.toggleOrigin}
-              exportFile={this.exportFile}
-              selectedPadPinNum={selectedPadPinNum}
-              selectedPadDimensions={selectedPadDimensions}
-              changeSelectedPadPinNum={this.changeSelectedPadPinNum}
-              footprintName={footprintName}
-              setFootprintName={this.setFootprintName}
-              changePinDimension={this.changePinDimension}
-              resetWorkspace={this.resetWorkspace}
+      <div className="App">
+        <Sidebar
+          uiState={uiState}
+          setScale={this.setScale}
+          addPad={this.addPad}
+          toggleOrigin={this.toggleOrigin}
+          exportFile={this.exportFile}
+          selectedPadPinNum={selectedPadPinNum}
+          selectedPadDimensions={selectedPadDimensions}
+          changeSelectedPadPinNum={this.changeSelectedPadPinNum}
+          footprintName={footprintName}
+          setFootprintName={this.setFootprintName}
+          changePinDimension={this.changePinDimension}
+          resetWorkspace={this.resetWorkspace}
+        />
+        <div id="main">
+          {uiState === UI_STATES.AWAITING_IMAGE && (
+            <NullState
+              setExample={this.setExample}
+              handleDrop={this.handleDrop}
             />
-            <div id="main">
-              {uiState === UI_STATES.AWAITING_IMAGE && (
-                <NullState setExample={this.setExample} />
-              )}
+          )}
 
-              {uiState === UI_STATES.SET_SCALE && <ScaleBarHelp />}
+          {uiState === UI_STATES.SET_SCALE && <ScaleBarHelp />}
 
-              {uiState === UI_STATES.SET_SCALE && (
-                <ScaleBar
-                  canvas={this.canvas}
-                  handleSubmit={this.handleScaleSubmit}
-                  scaleBar={scaleBar}
-                />
-              )}
+          {uiState === UI_STATES.SET_SCALE && (
+            <ScaleBar
+              canvas={this.canvas}
+              handleSubmit={this.handleScaleSubmit}
+              scaleBar={scaleBar}
+            />
+          )}
 
-              <div>
-                <canvas id="canvas" />
-              </div>
-            </div>
+          <div>
+            <canvas id="canvas" />
           </div>
-        )}
-      </Dropzone>
+        </div>
+      </div>
     );
   }
 }

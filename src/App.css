@@ -26,7 +26,6 @@ button {
   padding: 4px;
   border-radius: 4px;
   border: 1px solid #cccccc;
-  width: 46px;
   margin-right: 4px;
 }
 
@@ -35,8 +34,36 @@ input {
   text-align: right;
 }
 
+input.skinny,
+button.skinny {
+  width: 46px;
+}
+
 button {
   margin-left: 12px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+button.lg {
+  font-size: 18px;
+  padding: 8px 12px;
+}
+
+button.md {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+button.primary {
+  background-color: #557a95;
+  color: #fff;
+}
+
+button.secondary {
+  background-color: #938e94;
+  color: #fff;
 }
 
 #sidebar {
@@ -44,6 +71,7 @@ button {
   height: 100vh;
   width: 300px;
   border-right: 1px solid #ddd;
+  padding-top: 24px;
 }
 
 .footprint-name {
@@ -60,7 +88,6 @@ button {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  border-top: 1px solid #ddd;
   margin-bottom: 24px;
 }
 
@@ -70,6 +97,10 @@ button {
   border-bottom: 1px solid #eee;
   padding: 8px 8px;
   cursor: pointer;
+}
+
+#sidebar .actions li:first-child {
+  border-top: 1px solid #eee;
 }
 
 #sidebar .actions li.disabled {
@@ -117,7 +148,40 @@ button {
 
 #null-state {
   text-align: center;
-  margin-top: 200px;
+  padding-top: 24px;
+}
+
+#null-state h1 {
+  font-size: 48px;
+  padding-bottom: 8px;
+}
+
+#null-state p {
+  margin: 0;
+  margin-bottom: 12px;
+}
+
+#null-state .or {
+  padding: 18px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+#null-state .dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  margin: 64px 72px;
+  padding: 48px 0;
+  cursor: pointer;
+  outline: none;
+}
+
+#null-state .dropzone p {
+  margin: 0;
+}
+
+#null-state .example {
+  margin: 8px 0;
 }
 
 #scale-bar {
@@ -192,4 +256,19 @@ hr {
 
 .help-text p {
   margin: 0;
+}
+
+.link-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.link-button:hover,
+.link-button:focus {
+  text-decoration: none;
 }

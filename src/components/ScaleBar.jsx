@@ -65,6 +65,7 @@ export default class ScaleBar extends Component {
     return (
       <div id="scale-bar" style={{ left: tipLeft, top: tipTop }}>
         <input
+          className="skinny"
           type="number"
           value={enteredLength}
           onChange={evt => this.setState({ enteredLength: evt.target.value })}

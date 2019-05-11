@@ -1,11 +1,35 @@
 import React from 'react';
+import Dropzone from 'react-dropzone';
 
-const NullState = ({ setExample }) => {
+const NullState = ({ setExample, handleDrop }) => {
   return (
     <div id="null-state">
-      <h1>Drop footprint image to begin</h1>
+      <h1>Footprinter</h1>
+      <p>Quick KiCad footprints from datasheets.</p>
+
+      <Dropzone onDrop={handleDrop}>
+        {({ getRootProps, getInputProps }) => (
+          <div className="dropzone" {...getRootProps()}>
+            <input {...getInputProps()} />
+            <p>Drop footprint image here (.jpg or .png)</p>
+            <p className="or">OR</p>
+            <button className="select-file primary lg">Select File</button>
+          </div>
+        )}
+      </Dropzone>
+
+      <p>Not sure what's going on?</p>
+
       <p>
-        Or start with <button onClick={setExample}>an example</button>
+        <button onClick={setExample} className="md secondary example">
+          Start with an example
+        </button>
+      </p>
+
+      <p>
+        <a href="https://github.com/fredgreer/footprinter#help">
+          Read the docs
+        </a>
       </p>
     </div>
   );

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import hotkeys from 'hotkeys-js';
 import { fabric } from 'fabric';
-import Dropzone from 'react-dropzone';
 import ReactGA from 'react-ga';
 
 import './App.css';
@@ -33,8 +32,8 @@ const INITIAL_STATE = {
   offsetLocked: false,
   showOrigin: false,
   scaleBar: {
-    left: 100,
-    top: 300,
+    left: 80,
+    top: 280,
     scaleX: 1,
     enteredLength: '1.00'
   }
@@ -50,6 +49,44 @@ class App extends Component {
 
   _clipboard = null;
 
+  copy = () => {
+    const obj = this.canvas.getActiveObject();
+    const that = this;
+
+    if (!obj) return;
+
+    this.canvas.getActiveObject().clone(cloned => {
+      // Clone's scale is truncated by default
+      cloned.scaleX = obj.scaleX;
+      cloned.scaleY = obj.scaleY;
+
+      that._clipboard = cloned;
+    });
+  };
+
+  paste = () => {
+    if (!this._clipboard) return;
+
+    const canvas = this.canvas;
+    const clipboard = this._clipboard;
+
+    clipboard.clone(clonedObj => {
+      // Clone's scale is truncated by default
+      clonedObj.scaleX = clipboard.scaleX;
+      clonedObj.scaleY = clipboard.scaleY;
+
+      clonedObj.set({
+        top: canvas.pointerY,
+        left: canvas.pointerX
+      });
+
+      initPad(clonedObj, this.getNextPinNumber());
+
+      canvas.add(clonedObj);
+      canvas.setActiveObject(clonedObj);
+    });
+  };
+
   setupCanvas = () => {
     this.canvas = new fabric.Canvas('canvas', { uniScaleTransform: true });
     const main = document.getElementById('main');
@@ -59,8 +96,6 @@ class App extends Component {
     const canvas = this.canvas;
 
     this.setupOrigin();
-
-    const that = this;
 
     canvas.on('mouse:move', options => {
       canvas.pointerX = options.e.layerX;
@@ -78,41 +113,16 @@ class App extends Component {
       }
     });
 
-    hotkeys('command+c,ctrl+c', evt => {
-      const obj = canvas.getActiveObject();
+    document.addEventListener('keydown', evt => {
+      // Ctrl+C or Cmd+C
+      if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === 67) {
+        this.copy();
+      }
 
-      if (!obj) return;
-
-      canvas.getActiveObject().clone(cloned => {
-        // Clone's scale is truncated by default
-        cloned.scaleX = obj.scaleX;
-        cloned.scaleY = obj.scaleY;
-
-        that._clipboard = cloned;
-      });
-    });
-
-    hotkeys('command+v,ctrl+v', evt => {
-      if (!this._clipboard) return;
-
-      const canvas = this.canvas;
-      const clipboard = this._clipboard;
-
-      clipboard.clone(clonedObj => {
-        // Clone's scale is truncated by default
-        clonedObj.scaleX = clipboard.scaleX;
-        clonedObj.scaleY = clipboard.scaleY;
-
-        clonedObj.set({
-          top: canvas.pointerY,
-          left: canvas.pointerX
-        });
-
-        initPad(clonedObj, this.getNextPinNumber());
-
-        canvas.add(clonedObj);
-        canvas.setActiveObject(clonedObj);
-      });
+      // Ctrl+V or Cmd+V
+      if ((evt.ctrlKey || evt.metaKey) && evt.keyCode === 86) {
+        this.paste();
+      }
     });
 
     const movePad = (evt, direction, amount) => {
@@ -206,7 +216,8 @@ class App extends Component {
     this.setBgImage(exampleImg);
 
     this.setState({
-      uiState: UI_STATES.SET_SCALE
+      uiState: UI_STATES.SET_SCALE,
+      footprintName: 'Korean Hroparts Elec PJ-614'
     });
   };
 
@@ -253,6 +264,8 @@ class App extends Component {
     if (uiState !== UI_STATES.AWAITING_IMAGE) return;
 
     const b64 = await fileToBase64(acceptedFiles[0]);
+
+    console.log(b64);
 
     this.setBgImage(b64);
 
@@ -396,45 +409,44 @@ class App extends Component {
       scaleBar
     } = this.state;
     return (
-      <Dropzone onDrop={this.handleDrop}>
-        {({ getRootProps, getInputProps }) => (
-          <div className="App" {...getRootProps()}>
-            <Sidebar
-              uiState={uiState}
-              setScale={this.setScale}
-              addPad={this.addPad}
-              toggleOrigin={this.toggleOrigin}
-              exportFile={this.exportFile}
-              selectedPadPinNum={selectedPadPinNum}
-              selectedPadDimensions={selectedPadDimensions}
-              changeSelectedPadPinNum={this.changeSelectedPadPinNum}
-              footprintName={footprintName}
-              setFootprintName={this.setFootprintName}
-              changePinDimension={this.changePinDimension}
-              resetWorkspace={this.resetWorkspace}
+      <div className="App">
+        <Sidebar
+          uiState={uiState}
+          setScale={this.setScale}
+          addPad={this.addPad}
+          toggleOrigin={this.toggleOrigin}
+          exportFile={this.exportFile}
+          selectedPadPinNum={selectedPadPinNum}
+          selectedPadDimensions={selectedPadDimensions}
+          changeSelectedPadPinNum={this.changeSelectedPadPinNum}
+          footprintName={footprintName}
+          setFootprintName={this.setFootprintName}
+          changePinDimension={this.changePinDimension}
+          resetWorkspace={this.resetWorkspace}
+        />
+        <div id="main">
+          {uiState === UI_STATES.AWAITING_IMAGE && (
+            <NullState
+              setExample={this.setExample}
+              handleDrop={this.handleDrop}
             />
-            <div id="main">
-              {uiState === UI_STATES.AWAITING_IMAGE && (
-                <NullState setExample={this.setExample} />
-              )}
+          )}
 
-              {uiState === UI_STATES.SET_SCALE && <ScaleBarHelp />}
+          {uiState === UI_STATES.SET_SCALE && <ScaleBarHelp />}
 
-              {uiState === UI_STATES.SET_SCALE && (
-                <ScaleBar
-                  canvas={this.canvas}
-                  handleSubmit={this.handleScaleSubmit}
-                  scaleBar={scaleBar}
-                />
-              )}
+          {uiState === UI_STATES.SET_SCALE && (
+            <ScaleBar
+              canvas={this.canvas}
+              handleSubmit={this.handleScaleSubmit}
+              scaleBar={scaleBar}
+            />
+          )}
 
-              <div>
-                <canvas id="canvas" />
-              </div>
-            </div>
+          <div>
+            <canvas id="canvas" />
           </div>
-        )}
-      </Dropzone>
+        </div>
+      </div>
     );
   }
 }

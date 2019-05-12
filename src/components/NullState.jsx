@@ -7,7 +7,7 @@ const NullState = ({ setExample, handleDrop }) => {
       <h1>Footprinter</h1>
       <p>Quick KiCad footprints from datasheets.</p>
 
-      <Dropzone onDrop={handleDrop}>
+      <Dropzone onDrop={handleDrop} accept="image/*">
         {({ getRootProps, getInputProps }) => (
           <div className="dropzone" {...getRootProps()}>
             <input {...getInputProps()} />

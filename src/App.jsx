@@ -263,6 +263,8 @@ class App extends Component {
 
     if (uiState !== UI_STATES.AWAITING_IMAGE) return;
 
+    if (acceptedFiles.length === 0) return;
+
     const b64 = await fileToBase64(acceptedFiles[0]);
 
     this.setBgImage(b64);

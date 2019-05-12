@@ -177,6 +177,7 @@ class App extends Component {
     canvas.on('selection:cleared', handleSelection);
 
     canvas.on('object:scaling', handleSelection);
+    canvas.on('object:rotating', handleSelection);
   };
 
   setupOrigin = () => {

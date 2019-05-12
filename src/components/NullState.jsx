@@ -5,7 +5,7 @@ const NullState = ({ setExample, handleDrop }) => {
   return (
     <div id="null-state">
       <h1>Footprinter</h1>
-      <p>Quick KiCad footprints from datasheets.</p>
+      <p>Quick KiCad footprints from component datasheets.</p>
 
       <Dropzone onDrop={handleDrop} accept="image/*">
         {({ getRootProps, getInputProps }) => (

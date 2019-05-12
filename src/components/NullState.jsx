@@ -27,7 +27,11 @@ const NullState = ({ setExample, handleDrop }) => {
       </p>
 
       <p>
-        <a href="https://github.com/fredgreer/footprinter#usage">
+        <a
+          href="https://github.com/fredgreer/footprinter#usage"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Read the docs
         </a>
       </p>

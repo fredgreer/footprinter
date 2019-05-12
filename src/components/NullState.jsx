@@ -5,9 +5,9 @@ const NullState = ({ setExample, handleDrop }) => {
   return (
     <div id="null-state">
       <h1>Footprinter</h1>
-      <p>Quick KiCad footprints from datasheets.</p>
+      <p>Quick KiCad footprints from component datasheets.</p>
 
-      <Dropzone onDrop={handleDrop}>
+      <Dropzone onDrop={handleDrop} accept="image/*">
         {({ getRootProps, getInputProps }) => (
           <div className="dropzone" {...getRootProps()}>
             <input {...getInputProps()} />
@@ -27,7 +27,7 @@ const NullState = ({ setExample, handleDrop }) => {
       </p>
 
       <p>
-        <a href="https://github.com/fredgreer/footprinter#help">
+        <a href="https://github.com/fredgreer/footprinter#usage">
           Read the docs
         </a>
       </p>

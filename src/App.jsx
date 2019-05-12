@@ -170,6 +170,11 @@ class App extends Component {
         selectedPadPinNum: pad.pinNum,
         selectedPadDimensions: getPadDimensions(pad, scalePPI)
       });
+
+      ReactGA.event({
+        category: 'User',
+        action: 'Added a footprint image'
+      });
     };
 
     canvas.on('object:selected', handleSelection);
@@ -177,6 +182,7 @@ class App extends Component {
     canvas.on('selection:cleared', handleSelection);
 
     canvas.on('object:scaling', handleSelection);
+    canvas.on('object:rotating', handleSelection);
   };
 
   setupOrigin = () => {
@@ -263,9 +269,9 @@ class App extends Component {
 
     if (uiState !== UI_STATES.AWAITING_IMAGE) return;
 
-    const b64 = await fileToBase64(acceptedFiles[0]);
+    if (acceptedFiles.length === 0) return;
 
-    console.log(b64);
+    const b64 = await fileToBase64(acceptedFiles[0]);
 
     this.setBgImage(b64);
 
@@ -275,6 +281,8 @@ class App extends Component {
   };
 
   setScale = () => {
+    if (this.state.uiState !== UI_STATES.DRAW) return;
+
     this.setState({
       uiState: UI_STATES.SET_SCALE
     });
@@ -302,6 +310,8 @@ class App extends Component {
   };
 
   addPad = () => {
+    if (this.state.uiState !== UI_STATES.DRAW) return;
+
     const { pointerX, pointerY } = this.canvas;
 
     const left = Math.max(pointerX, 100);
@@ -385,9 +395,16 @@ class App extends Component {
   };
 
   exportFile = () => {
+    if (this.state.uiState !== UI_STATES.DRAW) return;
+
     const { scalePPI, footprintName } = this.state;
 
     exportKicadFootprint(this.canvas, scalePPI, footprintName);
+
+    ReactGA.event({
+      category: 'User',
+      action: 'Exported a KiCad footprint'
+    });
   };
 
   resetWorkspace = () => {

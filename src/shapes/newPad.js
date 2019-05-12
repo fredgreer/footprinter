@@ -29,7 +29,9 @@ export default function newPad(pinNum = '1', left, top, width, height) {
     left,
     top,
     originX: 'center',
-    originY: 'center'
+    originY: 'center',
+    minScaleLimit: 0.1,
+    lockScalingFlip: true
   });
 
   group.on('scaling', evt => {

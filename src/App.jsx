@@ -170,6 +170,11 @@ class App extends Component {
         selectedPadPinNum: pad.pinNum,
         selectedPadDimensions: getPadDimensions(pad, scalePPI)
       });
+
+      ReactGA.event({
+        category: 'User',
+        action: 'Added a footprint image'
+      });
     };
 
     canvas.on('object:selected', handleSelection);
@@ -395,6 +400,11 @@ class App extends Component {
     const { scalePPI, footprintName } = this.state;
 
     exportKicadFootprint(this.canvas, scalePPI, footprintName);
+
+    ReactGA.event({
+      category: 'User',
+      action: 'Exported a KiCad footprint'
+    });
   };
 
   resetWorkspace = () => {

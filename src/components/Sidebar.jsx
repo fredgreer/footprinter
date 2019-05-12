@@ -83,11 +83,11 @@ const Sidebar = ({
 
       <div className="links">
         <a
-          href="https://github.com/fredgreer/footprinter/help"
+          href="https://github.com/fredgreer/footprinter#usage"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Help
+          Docs
         </a>{' '}
         |{' '}
         <a

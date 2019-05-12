@@ -9,7 +9,8 @@ Creating component footprints is the most tedious part of any PCB layout project
 A lot of this pain comes from a single discrepancy:
 
 - PCB design software expects us to enter pads with height and width centred at some grid coordinate
-  -Component datasheets give recommended PCB footprints as strictly dimensioned mechanical drawings.
+
+- Component datasheets give recommended PCB footprints as strictly dimensioned mechanical drawings.
 
 Drawing a footprint therefore involves a lot of mental arithmetic, resizing of grids and gentle sobbing.
 

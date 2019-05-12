@@ -265,8 +265,6 @@ class App extends Component {
 
     const b64 = await fileToBase64(acceptedFiles[0]);
 
-    console.log(b64);
-
     this.setBgImage(b64);
 
     this.setState({
@@ -275,6 +273,8 @@ class App extends Component {
   };
 
   setScale = () => {
+    if (this.state.uiState !== UI_STATES.DRAW) return;
+
     this.setState({
       uiState: UI_STATES.SET_SCALE
     });
@@ -302,6 +302,8 @@ class App extends Component {
   };
 
   addPad = () => {
+    if (this.state.uiState !== UI_STATES.DRAW) return;
+
     const { pointerX, pointerY } = this.canvas;
 
     const left = Math.max(pointerX, 100);
@@ -385,6 +387,8 @@ class App extends Component {
   };
 
   exportFile = () => {
+    if (this.state.uiState !== UI_STATES.DRAW) return;
+
     const { scalePPI, footprintName } = this.state;
 
     exportKicadFootprint(this.canvas, scalePPI, footprintName);

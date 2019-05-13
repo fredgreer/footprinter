@@ -25,7 +25,8 @@ const Sidebar = ({
   setScale,
   addPad,
   toggleOrigin,
-  exportFile,
+  exportKicad,
+  exportEagle,
   selectedPadPinNum,
   selectedPadDimensions,
   changeSelectedPadPinNum,
@@ -68,8 +69,15 @@ const Sidebar = ({
         <SidebarOption
           Icon={DownloadIcon}
           text="Export KiCad Footprint"
+          hotkey="k"
+          onClick={exportKicad}
+          isDisabled={uiState !== UI_STATES.DRAW}
+        />
+        <SidebarOption
+          Icon={DownloadIcon}
+          text="Export Eagle Footprint"
           hotkey="e"
-          onClick={exportFile}
+          onClick={exportEagle}
           isDisabled={uiState !== UI_STATES.DRAW}
         />
 

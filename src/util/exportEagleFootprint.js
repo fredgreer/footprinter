@@ -1,5 +1,4 @@
-import { KICAD_MOD_TEMPLATE, KICAD_PAD_TEMPLATE } from './templates';
-import hexUnixSeconds from './hexUnixSeconds';
+import { EAGLE_LIB_TEMPLATE, EAGLE_PAD_TEMPLATE } from './templates';
 import getPadsForExport from './getPadsForExport';
 import saveFile from './saveFile';
 
@@ -9,7 +8,7 @@ export const renderPadSting = pad => {
     angle = -pad.angle;
   }
 
-  return KICAD_PAD_TEMPLATE(
+  return EAGLE_PAD_TEMPLATE(
     pad.pinNum,
     pad.physicalX,
     pad.physicalY,
@@ -19,21 +18,21 @@ export const renderPadSting = pad => {
   );
 };
 
-export const kicadModule = (name, padPhysicalCoords) => {
-  const timestamp = hexUnixSeconds();
-
+export const eagleLibrary = (name, padPhysicalCoords) => {
   const padStrings = padPhysicalCoords.map(renderPadSting);
   const pads = padStrings.join('\n');
 
-  return KICAD_MOD_TEMPLATE(name, timestamp, pads);
+  return EAGLE_LIB_TEMPLATE(name, pads);
 };
 
-export default function exportKicadFootprint(canvas, scalePPI, name) {
+export default function exportEagleFootprint(canvas, scalePPI, name) {
   const padCoords = getPadsForExport(canvas, scalePPI);
 
   name = name || 'Footprint';
 
-  const fileContents = kicadModule(name, padCoords);
+  name = name.replace(/\s/g, '_');
 
-  saveFile(fileContents, `${name}.kicad_mod`);
+  const fileContents = eagleLibrary(name, padCoords);
+
+  saveFile(fileContents, `${name}.lbr`);
 }

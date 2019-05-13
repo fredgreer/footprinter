@@ -8,6 +8,7 @@ import './App.css';
 import fileToBase64 from './util/fileToBase64';
 import exampleImg from './util/exampleImg';
 import exportKicadFootprint from './util/exportKicadFootprint';
+import exportEagleFootprint from './util/exportEagleFootprint';
 import getPadDimensions from './util/getPadDimensions';
 import { getHighestPinNum } from './util/canvasHelpers';
 
@@ -152,7 +153,8 @@ class App extends Component {
 
     hotkeys('s', this.setScale);
     hotkeys('p', this.addPad);
-    hotkeys('e', this.exportFile);
+    hotkeys('k', this.exportKicad);
+    hotkeys('e', this.exportEagle);
 
     const handleSelection = evt => {
       const { scalePPI } = this.state;
@@ -394,7 +396,7 @@ class App extends Component {
     this.setState({ footprintName: val });
   };
 
-  exportFile = () => {
+  exportKicad = () => {
     if (this.state.uiState !== UI_STATES.DRAW) return;
 
     const { scalePPI, footprintName } = this.state;
@@ -404,6 +406,19 @@ class App extends Component {
     ReactGA.event({
       category: 'User',
       action: 'Exported a KiCad footprint'
+    });
+  };
+
+  exportEagle = () => {
+    if (this.state.uiState !== UI_STATES.DRAW) return;
+
+    const { scalePPI, footprintName } = this.state;
+
+    exportEagleFootprint(this.canvas, scalePPI, footprintName);
+
+    ReactGA.event({
+      category: 'User',
+      action: 'Exported an Eagle footprint'
     });
   };
 
@@ -432,7 +447,8 @@ class App extends Component {
           setScale={this.setScale}
           addPad={this.addPad}
           toggleOrigin={this.toggleOrigin}
-          exportFile={this.exportFile}
+          exportKicad={this.exportKicad}
+          exportEagle={this.exportEagle}
           selectedPadPinNum={selectedPadPinNum}
           selectedPadDimensions={selectedPadDimensions}
           changeSelectedPadPinNum={this.changeSelectedPadPinNum}

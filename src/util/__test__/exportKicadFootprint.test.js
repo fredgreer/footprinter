@@ -1,8 +1,4 @@
 import exportKicadFootprint, {
-  findExtent,
-  findPixelCenter,
-  getPadPixelCoords,
-  getPadPhysicalCoords,
   renderPadSting,
   kicadModule
 } from '../exportKicadFootprint';
@@ -11,52 +7,6 @@ import * as hexUnixSeconds from '../hexUnixSeconds';
 
 import TEST_CANVAS from './data/canvas';
 const TEST_SCALE_FACTOR = 120;
-
-test('findExtent()', () => {
-  expect(findExtent(TEST_CANVAS._objects)).toEqual([396, 219, 702, 651]);
-});
-
-test('findPixelCenter()', () => {
-  expect(findPixelCenter([396, 219, 702, 651])).toEqual([549, 435]);
-});
-
-test('getPadPixelCoords()', () => {
-  const obj = {
-    left: 396,
-    top: 219,
-    width: 100,
-    height: 100,
-    scaleX: 0.8,
-    scaleY: 1.22
-  };
-  const pixelCoords = getPadPixelCoords(obj, [549, 435]);
-
-  expect(pixelCoords).toEqual({
-    ...obj,
-    pixelCenter: [-113, -155]
-  });
-});
-
-test('getPadPhysicalCoords()', () => {
-  const obj = {
-    left: 396,
-    top: 219,
-    width: 100,
-    height: 100,
-    scaleX: 0.8,
-    scaleY: 1.22,
-    pixelCenter: [-113, -155]
-  };
-  const physicalCoords = getPadPhysicalCoords(obj, TEST_SCALE_FACTOR);
-
-  expect(physicalCoords).toEqual({
-    ...obj,
-    physicalX: -0.9416666666666667,
-    physicalY: -1.2916666666666667,
-    physicalHeight: 1.0166666666666666,
-    physicalWidth: 0.6666666666666666
-  });
-});
 
 test('renderPadSting', () => {
   const pad = {
